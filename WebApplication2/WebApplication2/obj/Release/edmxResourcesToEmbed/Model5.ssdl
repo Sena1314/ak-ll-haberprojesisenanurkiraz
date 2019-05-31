@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HaberDBModel2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Kategori">
+    <Key>
+      <PropertyRef Name="KategoriID" />
+    </Key>
+    <Property Name="KategoriID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KategoriAdi" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Makale">
+    <Key>
+      <PropertyRef Name="MakaleID" />
+    </Key>
+    <Property Name="MakaleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="YazarID" Type="int" />
+    <Property Name="KategoriID" Type="int" />
+    <Property Name="Baslık" Type="nvarchar" MaxLength="50" />
+    <Property Name="Icerik" Type="nvarchar(max)" />
+    <Property Name="Tarih" Type="datetime" />
+    <Property Name="mp3" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Üye">
+    <Key>
+      <PropertyRef Name="ÜyeID" />
+    </Key>
+    <Property Name="ÜyeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ad" Type="nvarchar" MaxLength="50" />
+    <Property Name="Soyad" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="KullaniciAdi" Type="nvarchar" MaxLength="50" />
+    <Property Name="Sifre" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Yazar">
+    <Key>
+      <PropertyRef Name="YazarID" />
+    </Key>
+    <Property Name="YazarID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="YazarAdi" Type="nvarchar(max)" />
+    <Property Name="KullaniciAdi" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_Makale_Kategori">
+    <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Makale" Type="Self.Makale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kategori">
+        <PropertyRef Name="KategoriID" />
+      </Principal>
+      <Dependent Role="Makale">
+        <PropertyRef Name="KategoriID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Makale_Yazar">
+    <End Role="Yazar" Type="Self.Yazar" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Makale" Type="Self.Makale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Yazar">
+        <PropertyRef Name="YazarID" />
+      </Principal>
+      <Dependent Role="Makale">
+        <PropertyRef Name="YazarID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HaberDBModel2StoreContainer">
+    <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Makale" EntityType="Self.Makale" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Üye" EntityType="Self.Üye" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Yazar" EntityType="Self.Yazar" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Makale_Kategori" Association="Self.FK_Makale_Kategori">
+      <End Role="Kategori" EntitySet="Kategori" />
+      <End Role="Makale" EntitySet="Makale" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Makale_Yazar" Association="Self.FK_Makale_Yazar">
+      <End Role="Yazar" EntitySet="Yazar" />
+      <End Role="Makale" EntitySet="Makale" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
